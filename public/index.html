@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>キーワードで別ページへ移動</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>キーワード入力</h1>
+    <form id="kwForm" method="POST" action="/check">
+      <input id="keyword" name="keyword" placeholder="キーワードを入力" autocomplete="off" />
+      <button type="submit">送信</button>
+      <p id="msg" class="hidden"></p>
+    </form>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

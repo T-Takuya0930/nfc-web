@@ -1,0 +1,25 @@
+body{
+  font-family: system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  padding: 2rem;
+  background: #f7f7f7;
+}
+main{
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+input{
+  width: 100%;
+  padding: .6rem;
+  margin-bottom: .5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button{
+  padding: .6rem 1rem;
+}
+.hidden{display:none}
+#msg{color:#c00;margin-top:.5rem}
