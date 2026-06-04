@@ -1,45 +1,39 @@
-# キーワードで別ページへ移動するサンプル
+# Cloudflare Workers 版 キーワードで別ページへ移動するサンプル
 
 使い方:
 
-- ブラウザで `index.html` を開くか、ローカルサーバーで表示します。
+- ブラウザで `wrangler dev` が表示するローカルURLを開きます。
 
 ローカルで簡単に動かすコマンド:
 
 ```bash
-# 1) npm を使って Express サーバーで起動する (推奨)
 cd /Users/tamuratakuya/Workspace/nfc-web
 npm install
-npm start
-# ブラウザで http://localhost:3000/index.html を開く
-
-# 2) 静的サーバーで簡易確認する場合
-python3 -m http.server 8000
-# ブラウザで http://localhost:8000/index.html を開く
+npm run dev
+# ブラウザで wrangler が表示するローカルURLを開く
 ```
 
-デフォルトのキーワードはサーバーの `CORRECT_KEYWORD` 環境変数、未設定時は `秘密` です。
+8個のキーワードは Cloudflare Workers の環境変数で管理します。コードには正解文字列を置いていません。
 
-セッション用の秘密鍵を設定してください（本番環境では必須）:
+ローカル開発時は `.dev.vars` に以下を設定してください。
 
 ```bash
-export SESSION_SECRET="任意の長いランダム文字列"
-export CORRECT_KEYWORD="正解のキーワード"
-npm start
-複数ページ設定:
-- デフォルトで8個のキーワードを `server.js` 内の `pages` 配列で定義しています。
-- 環境変数 `KW1` ... `KW8` を設定するとそれぞれのキーワードを上書きできます。
+SESSION_SECRET=任意の長いランダム文字列
+KW1=りんご
+KW2=みかん
+KW3=ぶどう
+KW4=もも
+KW5=いちご
+KW6=ばなな
+KW7=キウイ
+KW8=メロン
+```
 
-例:
-```bash
-export KW1="りんご"
-export KW2="みかん"
-export KW3="ぶどう"
-export KW4="もも"
-export KW5="いちご"
-export KW6="ばなな"
-export KW7="キウイ"
-export KW8="メロン"
-npm start
-```
-```
+GitHub 経由のデプロイには、リポジトリ Secrets に次を設定してください。
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `SESSION_SECRET`
+- `KW1` ... `KW8`
+
+ワークフローは `.github/workflows/deploy.yml` にあります。
