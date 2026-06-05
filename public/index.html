@@ -8,13 +8,28 @@
 </head>
 <body>
   <main>
-    <h1>キーワード入力</h1>
-    <form id="kwForm" method="POST" action="/check">
-      <input id="keyword" name="keyword" placeholder="キーワードを入力" autocomplete="off" />
-      <button type="submit">送信</button>
-      <p id="msg" class="hidden"></p>
-    </form>
+    <header class="site-header">
+      <h1>ラーメンナゾトキ</h1>
+      <p class="site-desc">挑戦クイズ: このビルの張り紙を見つけ、白いカードをスマホにかざすと高田馬場のラーメン店が表示されます。表示された店名からキーワードを集め、合計8つのキーワードで1つの単語を完成させてください。キーワードはこの建物の2〜4階に隠されています。全部見つけて、単語を完成できるか挑戦してみましょう！</p>
+    </header>
+
+    <section class="kw-section">
+      <div class="card desc-card">
+        <p>キーワードはカードを読み取って出てきたラーメン屋のフルネームの1文字目</p>
+        <p>例: 「ラーメン二郎」の場合は「ラ」を入力してください。</p>
+      </div>
+
+      <div class="card form-card">
+        <form id="kwForm" method="POST" action="/check">
+          <input id="keyword" name="keyword" placeholder="キーワードを入力" autocomplete="off" />
+          <div style="height:12px"></div>
+          <button type="submit">送信</button>
+          <p id="msg" class="hidden"></p>
+        </form>
+      </div>
+    </section>
   </main>
   <script src="script.js"></script>
+  <script src="words.js"></script>
 </body>
 </html>

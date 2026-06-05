@@ -1,3 +1,72 @@
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const { pathname } = url;
+
+    // Hints and keys (server-side only)
+    const HINTS = ['麺','末','鶏','デ','一','俺','つ','博'];
+    const KEY_TO_PAGE = { '麺':1,'末':2,'鶏':3,'デ':4,'一':5,'俺':6,'つ':7,'博':8 };
+
+    // Helper: parse cookies
+    const parseCookies = (cookieHeader) => {
+      const obj = {};
+      if(!cookieHeader) return obj;
+      cookieHeader.split(';').forEach(pair =>{
+        const idx = pair.indexOf('=');
+        if(idx===-1) return;
+        const k = pair.slice(0,idx).trim();
+        const v = pair.slice(idx+1).trim();
+        obj[k]=v;
+      });
+      return obj;
+    };
+
+    // POST /check -> validate keyword and set httpOnly cookie, redirect to /hint/:n
+    if(request.method === 'POST' && pathname === '/check'){
+      try{
+        const form = await request.formData();
+        const kw = (form.get('keyword') || '').toString().trim();
+        if(!kw) return Response.redirect('/?error=empty', 303);
+        const page = KEY_TO_PAGE[kw];
+        if(page && page>=1 && page<=HINTS.length){
+          // set httpOnly cookie, short lived
+          const cookie = `allowed_page=${page}; Max-Age=30; Path=/; HttpOnly; SameSite=Lax`;
+          return new Response('See Other. Redirecting', { status:303, headers: { 'Location': `/hint/${page}`, 'Set-Cookie': cookie } });
+        }
+        return Response.redirect('/?error=wrong', 303);
+      } catch(e){
+        return new Response('Bad Request', { status:400 });
+      }
+    }
+
+    // GET /hint/:n -> check cookie and render hint, clear cookie
+    if(request.method === 'GET' && pathname.startsWith('/hint/')){
+      const parts = pathname.split('/');
+      const n = parseInt(parts[2],10);
+      if(!n || n<1 || n>HINTS.length) return new Response('Not found', { status:404 });
+      const cookies = parseCookies(request.headers.get('cookie'));
+      if(String(cookies.allowed_page) !== String(n)){
+        return Response.redirect('/?error=forbidden', 303);
+      }
+      // clear cookie
+      const clear = 'allowed_page=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      const hint = HINTS[n-1];
+      const html = `<!doctype html><html lang="ja"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>ページ${n} - ラーメンナゾトキ</title><link rel="stylesheet" href="/style.css"></head><body style="background:#bd3131;"><main><header class="site-header"><h1>ページ ${n}</h1></header><section style="text-align:center;padding:40px;"><p style="color:#111;background:transparent;font-size:29px;">${hint}</p><p style="margin-top:18px;"><a href="/" style="color:#0b5394;text-decoration:underline">メインページに戻る</a></p></section></main></body></html>`;
+      return new Response(html, { status:200, headers: { 'Content-Type':'text/html; charset=utf-8', 'Set-Cookie': clear } });
+    }
+
+    // Fallback: serve static assets via ASSETS binding
+    try{
+      const assetResp = await env.ASSETS.fetch(request);
+      // If asset found, return it
+      if(assetResp && assetResp.status !== 404) return assetResp;
+    } catch(e){
+      // fallthrough
+    }
+
+    return new Response('Not found', { status:404 });
+  }
+};
 const PAGE_CONFIG = [
   { id: '1', title: 'ページ 1', body: 'ページ 1 の内容です。', keywordEnv: 'KW1' },
   { id: '2', title: 'ページ 2', body: 'ページ 2 の内容です。', keywordEnv: 'KW2' },
