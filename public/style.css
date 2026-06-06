@@ -1,6 +1,6 @@
 body{
   font-family: system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  padding: 2rem;
+  padding: 1rem;
   background: #bd3131;
   color: #111;
 }
@@ -8,7 +8,7 @@ main{
   max-width: 920px;
   margin: 0 auto;
   background: transparent;
-  padding: 1.5rem 1rem;
+  padding: 1rem 1rem;
 }
 input{
   width: 100%;
@@ -31,12 +31,10 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
 #msg{color:#c00;margin-top:.5rem}
 
 .site-header{
-  text-align: left;
-  padding: 1.4rem 1.4rem;
+  padding: 1rem 1rem;
   background: linear-gradient(90deg,#fff2f2 0%, #ffecec 50%, #fff 100%);
   border-radius: 10px;
   margin-bottom: 1rem;
-  display: flex;
   align-items: center;
   gap: 1rem;
   background-repeat: no-repeat;
@@ -44,7 +42,7 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
   background-size: 160px;
 }
 .site-header h1{
-  margin: 0 0 .2rem 0;
+  margin: 0 0.2rem 0;
   font-size: 1.8rem;
   color: #7f0f0f;
   letter-spacing: .02em;
@@ -52,7 +50,7 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
 .site-desc{
   margin: 0;
   color: #5a1212;
-  font-size: .98rem;
+  font-size: .30rem;
   line-height: 1.45;
   max-width: 58ch;
 }
@@ -63,7 +61,7 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
 }
 .site-header{
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 0.5rem 1rem;
   background: #8b1616;
   border-radius: 16px;
   margin-bottom: 1.5rem;
@@ -78,7 +76,7 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
 .site-desc{
   margin: 0 auto;
   color: #ffffff;
-  font-size: 1.12rem;
+  font-size: 0.90rem;
   line-height: 1.5;
   max-width: 68ch;
 }
@@ -97,12 +95,12 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
   border-radius:16px;
   text-align:center;
 }
-.desc-card{font-size:2rem;color:#333}
+.desc-card{font-size:1.2rem;color:#333}
 .form-card{border:6px solid rgba(0,0,0,0.06);border-radius:16px}
 .form-card input{
   background:transparent;
   border:none;
-  font-size:2.2rem;
+  font-size:1.2rem;
   text-align:center;
   outline: 2px solid #8b1616;
   width:60%;
@@ -122,7 +120,6 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}
   .site-header{background-position: center 8px;background-size: 220px;padding-top:2.4rem}
   .site-header h1{font-size:2rem}
   .site-desc{font-size:1rem;padding:0 8px}
-  main{padding:1rem}
 }
 
 /* Word list panel shown on every page */

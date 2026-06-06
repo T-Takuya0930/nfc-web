@@ -9,8 +9,8 @@
 <body>
   <main>
     <header class="site-header">
-      <h1>ラーメンナゾトキ</h1>
-      <p class="site-desc">挑戦クイズ: このビルの張り紙を見つけ、白いカードをスマホにかざすと高田馬場のラーメン店が表示されます。表示された店名からキーワードを集め、合計8つのキーワードで1つの単語を完成させてください。キーワードはこの建物の2〜4階に隠されています。全部見つけて、単語を完成できるか挑戦してみましょう！</p>
+      <h1 style="font-size:35px">ラーメンナゾトキ</h1>
+      <p class="site-desc">このビルの張り紙を見つけ、白いカードをスマホにかざすと高田馬場のラーメン店が表示されます。<br>表示された店名からキーワードを集め、合計8つのキーワードで1つの単語を完成させてください。<br>キーワードはこの建物の2〜4階に隠されています。全部見つけて、単語を完成できるか挑戦してみましょう！<br>解答を303のブースに見せに来て頂ければ、特典がもらえます！</p>
     </header>
 
     <section class="kw-section">
@@ -29,6 +29,24 @@
       </div>
     </section>
   </main>
+  <!-- Floating answer button and modal -->
+  <button id="answerBtn" title="解答" aria-label="解答" style="position:fixed;right:30px;bottom:30px;z-index:1000;width:120px;height:120px;border-radius:50%;background:#0b5394;color:#fff;border:none;font-size:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(11,83,148,0.18);cursor:pointer">解答</button>
+
+  <div id="answerModal" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:1100">
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.4)"></div>
+    <div style="position:relative;background:#fff;padding:20px;border-radius:8px;max-width:500px;margin:0 auto;z-index:1101;text-align:left;">
+      <h3 style="margin-top:0">解答を入力</h3>
+      <form id="answerForm" method="POST" action="/answer">
+        <p style="font-size:13px;color:#666;margin:0 0 8px 0">注意：解答はすべてひらがなの大文字で入力してください。</p>
+        <input id="answerInput" name="answer" placeholder="単語を入力（ひらがな）" autocomplete="off" style="width:100%;padding:8px;margin-bottom:10px;border:1px solid #ddd;border-radius:4px" />
+        <div style="text-align:right">
+          <button type="button" id="answerClose" style="margin-right:8px">閉じる</button>
+          <button type="submit" style="background:#0b5394;color:#fff;border:none;padding:8px 12px;border-radius:6px">送信</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script src="words.js"></script>
 </body>

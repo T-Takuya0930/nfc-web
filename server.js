@@ -85,7 +85,7 @@ app.get('/hint/:n', (req, res) => {
 </head>
 <body style="background:#bd3131;">
   <main>
-    <header class="site-header"><h1>ページ ${n}</h1></header>
+    <header class="site-header" style="text-align:center;"><h1>答えの ${n}文字目は</h1></header>
     <section style="text-align:center;padding:40px;">
       <p style="color:#111;background:transparent;font-size:29px;">${hint}</p>
       <p style="margin-top:18px;"><a href="/" style="color:#0b5394;text-decoration:underline">メインページに戻る</a></p>
@@ -93,6 +93,59 @@ app.get('/hint/:n', (req, res) => {
   </main>
 </body>
 </html>`);
+});
+
+// Compute default answer from KEY_TO_PAGE ordering if not provided via env
+const computeDefaultAnswer = () => {
+  const arr = new Array(HINTS.length);
+  for (const [k, v] of Object.entries(KEY_TO_PAGE)) {
+    if (typeof v === 'number' && v >= 1 && v <= HINTS.length) arr[v - 1] = k;
+  }
+  return arr.join('');
+};
+
+// Hardcoded answer inside the server file (do not rely on dev vars)
+// Change this string if you want a custom correct answer.
+const ANSWER = computeDefaultAnswer();
+
+// Handle final answer submission
+app.post('/answer', (req, res) => {
+  const submitted = (req.body.answer || '').trim();
+  if (!submitted) return res.redirect('/?error=empty');
+
+  // Normalize inputs: NFKC, remove whitespace, convert Katakana to Hiragana, lowercase
+  const normalize = (s) => {
+    if (!s) return '';
+    const n = s.normalize('NFKC').replace(/\s+/g, '');
+    // convert Katakana range to Hiragana by codepoint offset
+    const converted = n.replace(/[\u30A1-\u30F6]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+    return converted.toLowerCase();
+  };
+
+  const normSubmitted = normalize(submitted);
+  const normAnswer = normalize(ANSWER);
+  console.log('[POST /answer] submitted=%s norm=%s answer=%s normAnswer=%s', submitted, normSubmitted, ANSWER, normAnswer);
+
+  if (normSubmitted === normAnswer) {
+    // Show success page (keep it simple and server-rendered)
+    return res.send(`<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>正解！</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main style="text-align:center;padding:40px;">
+    <h1 style="color:#111;background:transparent;font-size:29px;">正解！おめでとうございます</h1>
+    <p><a href="/">メインページに戻る</a></p>
+  </main>
+</body>
+</html>`);
+  }
+
+  return res.redirect('/?error=wrong');
 });
 
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}`));

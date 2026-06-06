@@ -8,3 +8,22 @@ if (params.get('error')) {
   else msg.textContent = 'エラーが発生しました';
   msg.classList.remove('hidden');
 }
+
+// Answer modal handling (open/close, focus)
+const answerBtn = document.getElementById('answerBtn');
+const answerModal = document.getElementById('answerModal');
+const answerClose = document.getElementById('answerClose');
+const answerInput = document.getElementById('answerInput');
+
+if (answerBtn && answerModal) {
+  answerBtn.addEventListener('click', () => {
+    answerModal.style.display = 'flex';
+    if (answerInput) answerInput.focus();
+  });
+}
+
+if (answerClose && answerModal) {
+  answerClose.addEventListener('click', () => {
+    answerModal.style.display = 'none';
+  });
+}
